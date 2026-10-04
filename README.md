@@ -16,7 +16,7 @@
 
 <div align="center">
 
-#  S.C.O.U.T.
+# 🛰️ S.C.O.U.T.
 
 ### **S**afety **C**ontrol & **O**bservation **U**nit **T**ech
 
@@ -27,7 +27,9 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Platform](https://img.shields.io/badge/Platform-ESP8266-red.svg)](https://www.espressif.com/en/products/socs/esp8266)
 [![Framework](https://img.shields.io/badge/Framework-Arduino%20%2B%20FreeRTOS-teal.svg)](https://www.freertos.org/)
-[![Version](https://img.shields.io/badge/Version-v0.1.0--Pup-orange.svg)](CHANGELOG.md)
+[![Build](https://img.shields.io/badge/Build-PlatformIO-orange.svg)](https://platformio.org/)
+[![CI](https://github.com/[your-username]/SCOUT/actions/workflows/build.yml/badge.svg)](https://github.com/[your-username]/SCOUT/actions/workflows/build.yml)
+[![Version](https://img.shields.io/badge/Version-v0.1.0--Pup-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/Status-Active%20Development-yellow.svg)]()
 [![Team](https://img.shields.io/badge/Team-Absolute%20Tech-purple.svg)]()
 
@@ -76,6 +78,12 @@ Built with **FreeRTOS** task scheduling, fail-safe motor control, and mission da
 - **Dead-Man Switch** — Motors stop if no command received in 3s
 - **Battery Monitoring** — Live voltage + low-battery auto-return
 - **Mission Data Logging** — LittleFS black-box with CSV export
+
+### ⚙️ Development
+- **PlatformIO Build System** — Reproducible, project-scoped dependencies
+- **GitHub Actions CI** — Automatic firmware compilation on every push
+- **Modular Architecture** — Clean HAL / Kernel / Application separation
+- **OTA Updates** — Flash firmware over WiFi without USB cable
 
 ---
 
@@ -168,14 +176,9 @@ Built with **FreeRTOS** task scheduling, fail-safe motor control, and mission da
 
 ### Prerequisites
 
-- [Arduino IDE](https://www.arduino.cc/en/software) 2.x **or** [PlatformIO](https://platformio.org/)
-- ESP8266 Board Package (`http://arduino.esp8266.com/stable/package_esp8266com_index.json`)
-- Required libraries:
-  - `DHT sensor library` by Adafruit
-  - `Adafruit Unified Sensor`
-  - `ESP8266WebServer`
-  - `DNSServer` (for captive portal)
-  - `LittleFS`
+- [PlatformIO Core](https://platformio.org/install) **or** [VS Code + PlatformIO IDE](https://platformio.org/install/ide?install=vscode)
+- Git
+- USB drivers for your NodeMCU (CP2102 or CH340)
 
 ### Installation
 
@@ -189,22 +192,108 @@ Built with **FreeRTOS** task scheduling, fail-safe motor control, and mission da
    ```bash
    cp firmware/config.example.h firmware/config.h
    ```
-   Edit `config.h` and set:
+   Edit `firmware/config.h` and set:
    - `CAMERA_SSID` — your E88 camera's AP name
    - `GAS_THRESHOLD` — MQ2 alert level
    - `AIR_THRESHOLD` — MQ135 alert level
    - `BATTERY_LOW` — low voltage cutoff
 
-3. **Flash the firmware**
-   - Open `firmware/SCOUT.ino` in Arduino IDE
-   - Select board: **NodeMCU 1.0 (ESP-12E Module)**
-   - Upload
+3. **Build the firmware**
+   ```bash
+   pio run
+   ```
 
-4. **Connect and control**
+4. **Flash to the board**
+   ```bash
+   pio run --target upload
+   ```
+
+5. **Monitor serial output**
+   ```bash
+   pio device monitor
+   ```
+
+6. **Connect and control**
    - Power on the bot
    - Join the camera's WiFi AP from your phone
    - Open a browser and navigate to the ESP's IP (shown on serial monitor)
    - The S.C.O.U.T. dashboard loads — drive away! 🚗
+
+### Project Configuration
+
+All build settings are defined in `platformio.ini`:
+
+```ini
+[env:nodemcuv2]
+platform = espressif8266
+board = nodemcuv2
+framework = arduino
+
+monitor_speed = 115200
+upload_speed = 921600
+
+build_flags =
+    -DDEBUG_ESP_PORT=Serial
+    -Wall
+
+lib_deps =
+    adafruit/DHT sensor library@^1.4.6
+    adafruit/Adafruit Unified Sensor@^1.1.14
+
+board_build.filesystem = littlefs
+```
+
+### Automated Builds (CI)
+
+Every push to `main` or `develop` automatically compiles the firmware via GitHub Actions. The compiled `.bin` file is available in the **Actions** tab → select the workflow run → **Artifacts**.
+
+---
+
+## 📁 Project Structure
+
+```
+SCOUT/
+├── .github/
+│   └── workflows/
+│       └── build.yml              # CI: compile firmware on push
+├── LICENSE
+├── NOTICE
+├── README.md
+├── CHANGELOG.md
+├── platformio.ini                 # PlatformIO build configuration
+├── .gitignore
+├── docs/
+│   ├── ARCHITECTURE.md
+│   ├── WIRING.md
+│   ├── API.md
+│   └── CALIBRATION.md
+├── firmware/
+│   ├── SCOUT.ino                  # Main entry point
+│   ├── config.example.h           # Config template (committed)
+│   ├── config.h                   # Actual config (gitignored)
+│   ├── core/
+│   │   ├── task_manager.cpp
+│   │   ├── watchdog.cpp
+│   │   └── logger.cpp
+│   ├── drivers/
+│   │   ├── motor_l298n.cpp
+│   │   ├── sensor_mq2.cpp
+│   │   ├── sensor_mq135.cpp
+│   │   ├── sensor_dht.cpp
+│   │   └── battery_monitor.cpp
+│   ├── network/
+│   │   ├── wifi_sta.cpp
+│   │   ├── web_server.cpp
+│   │   └── captive_portal.cpp
+│   └── web/
+│       ├── index.html
+│       ├── style.css
+│       └── script.js
+└── hardware/
+    ├── schematic.pdf
+    ├── bom.csv
+    └── enclosure/
+```
 
 ---
 
@@ -222,34 +311,6 @@ See [CHANGELOG.md](CHANGELOG.md) for details.
 
 ---
 
-## 📁 Project Structure
-
-```
-SCOUT/
-├── LICENSE
-├── NOTICE
-├── README.md
-├── CHANGELOG.md
-├── docs/
-│   ├── ARCHITECTURE.md
-│   ├── WIRING.md
-│   ├── API.md
-│   └── CALIBRATION.md
-├── firmware/
-│   ├── SCOUT.ino
-│   ├── config.h
-│   ├── core/
-│   ├── drivers/
-│   ├── network/
-│   └── web/
-└── hardware/
-    ├── schematic.pdf
-    ├── bom.csv
-    └── enclosure/
-```
-
----
-
 ## 🤝 Contributing
 
 Contributions are welcome! Please:
@@ -259,6 +320,8 @@ Contributions are welcome! Please:
 3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+All PRs must pass the CI build before merging.
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct.
 
@@ -291,6 +354,7 @@ limitations under the License.
 
 - [ESP8266 Arduino Core](https://github.com/esp8266/Arduino)
 - [FreeRTOS](https://www.freertos.org/)
+- [PlatformIO](https://platformio.org/)
 - [Adafruit DHT Library](https://github.com/adafruit/DHT-sensor-library)
 - All open-source contributors who made this possible
 
@@ -299,13 +363,13 @@ limitations under the License.
 ## 📬 Contact
 
 **Team Absolute Tech**
-- 🏫 The Sapience School , Vikasnager , Dehradun , India
+- 🏫 The Sapience School , Vikasnager, Dehradun,India 
 - 📧 aosmicservices@gmail.com
 - 🔗 https://github.com/Aosmic-S/S.C.O.U.T./
 
 **Team Members:**
-- Arham Ali — Software Engineer
-- Devansh Rana - Hardware Engineer 
+- Arham Ali
+- Devansh Rana
 
 ---
 
