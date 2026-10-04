@@ -16,7 +16,7 @@
 
 <div align="center">
 
-# 🛰️ S.C.O.U.T.
+#  S.C.O.U.T.
 
 ### **S**afety **C**ontrol & **O**bservation **U**nit **T**ech
 
@@ -301,7 +301,7 @@ limitations under the License.
 **Team Absolute Tech**
 - 🏫 The Sapience School , Vikasnager , Dehradun , India
 - 📧 aosmicservices@gmail.com
-- 🔗 [Project Link](https://github.com/Aosmic-S/SCOUT)
+- 🔗 https://github.com/Aosmic-S/S.C.O.U.T./
 
 **Team Members:**
 - Arham Ali — Software Engineer
