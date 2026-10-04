@@ -28,7 +28,7 @@
 [![Platform](https://img.shields.io/badge/Platform-ESP8266-red.svg)](https://www.espressif.com/en/products/socs/esp8266)
 [![Framework](https://img.shields.io/badge/Framework-Arduino%20%2B%20FreeRTOS-teal.svg)](https://www.freertos.org/)
 [![Build](https://img.shields.io/badge/Build-PlatformIO-orange.svg)](https://platformio.org/)
-[![CI](https://github.com/[your-username]/SCOUT/actions/workflows/build.yml/badge.svg)](https://github.com/[your-username]/SCOUT/actions/workflows/build.yml)
+[![CI](https://github.com/Aosmic-S/S.C.O.U.T./actions/workflows/build.yml/badge.svg)](https://github.com/Aosmic-S/S.C.O.U.T./actions/workflows/build.yml)
 [![Version](https://img.shields.io/badge/Version-v0.1.0--Pup-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/Status-Active%20Development-yellow.svg)]()
 [![Team](https://img.shields.io/badge/Team-Absolute%20Tech-purple.svg)]()
