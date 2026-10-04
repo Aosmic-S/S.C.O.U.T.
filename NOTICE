@@ -1,0 +1,113 @@
+S.C.O.U.T. — Safety Control & Observation Unit Tech
+Copyright 2026 Absolute Tech
+
+This product includes software developed by Team Absolute Tech
+(https://github.com/[your-username]/SCOUT).
+
+================================================================================
+THIRD-PARTY COMPONENTS
+================================================================================
+
+This product includes the following third-party open-source software.
+The respective copyright notices and licenses are listed below.
+
+--------------------------------------------------------------------------------
+1. ESP8266 Arduino Core
+--------------------------------------------------------------------------------
+Copyright (c) 2014-2026 Ivan Grokhotkov and contributors
+Licensed under the GNU Lesser General Public License v2.1 (LGPL-2.1)
+Source: https://github.com/esp8266/Arduino
+
+--------------------------------------------------------------------------------
+2. FreeRTOS Kernel
+--------------------------------------------------------------------------------
+Copyright (c) 2020 Amazon.com, Inc. or its affiliates
+Licensed under the MIT License
+Source: https://www.freertos.org/
+
+--------------------------------------------------------------------------------
+3. Adafruit DHT Sensor Library
+--------------------------------------------------------------------------------
+Copyright (c) 2012-2026 Adafruit Industries
+Licensed under the MIT License
+Source: https://github.com/adafruit/DHT-sensor-library
+
+--------------------------------------------------------------------------------
+4. Adafruit Unified Sensor Driver
+--------------------------------------------------------------------------------
+Copyright (c) 2012-2026 Adafruit Industries
+Licensed under the Apache License, Version 2.0
+Source: https://github.com/adafruit/Adafruit_Sensor
+
+--------------------------------------------------------------------------------
+5. ArduinoJson (optional, if used)
+--------------------------------------------------------------------------------
+Copyright (c) 2014-2026 Benoit Blanchon
+Licensed under the MIT License
+Source: https://github.com/bblanchon/ArduinoJson
+
+--------------------------------------------------------------------------------
+6. ESP8266WebServer
+--------------------------------------------------------------------------------
+Part of the ESP8266 Arduino Core
+Copyright (c) 2014-2026 Ivan Grokhotkov and contributors
+Licensed under the GNU Lesser General Public License v2.1 (LGPL-2.1)
+Source: https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WebServer
+
+--------------------------------------------------------------------------------
+7. DNSServer
+--------------------------------------------------------------------------------
+Part of the ESP8266 Arduino Core
+Copyright (c) 2014-2026 Ivan Grokhotkov and contributors
+Licensed under the GNU Lesser General Public License v2.1 (LGPL-2.1)
+Source: https://github.com/esp8266/Arduino/tree/master/libraries/DNSServer
+
+--------------------------------------------------------------------------------
+8. LittleFS for ESP8266
+--------------------------------------------------------------------------------
+Copyright (c) 2018-2026 ARM Limited and contributors
+Licensed under the Apache License, Version 2.0
+Source: https://github.com/ARMmbed/littlefs
+
+================================================================================
+TRADEMARKS
+================================================================================
+
+All product names, logos, and brands referenced in this project are the
+property of their respective owners. Use of these names does not imply
+endorsement.
+
+- "NodeMCU" is a trademark of the NodeMCU Development Team.
+- "ESP8266" is a trademark of Espressif Systems.
+- "Arduino" is a trademark of Arduino AG.
+- "E88" refers to the FPV camera module used for video transmission.
+- All other trademarks are the property of their respective owners.
+
+================================================================================
+DISCLAIMER
+================================================================================
+
+S.C.O.U.T. is a research and competition project developed by Team Absolute
+Tech. It is provided "as is" without warranty of any kind, express or
+implied, including but not limited to the warranties of merchantability,
+fitness for a particular purpose, and noninfringement.
+
+This system is NOT certified for use in actual emergency, military, or
+life-critical rescue operations. It is intended for educational,
+experimental, and competition purposes only. Always follow local laws and
+safety regulations when operating robotic systems.
+
+================================================================================
+
+For the full text of the Apache License 2.0, see the LICENSE file.
+For the full text of the LGPL-2.1 license, see:
+    https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+For the full text of the MIT License, see:
+    https://opensource.org/licenses/MIT
+
+================================================================================
+
+Contact: aosmicservices@gmail.com
+Project: https://github.com/Aosmic-S/S.C.O.U.T./
+
+================================================================================
