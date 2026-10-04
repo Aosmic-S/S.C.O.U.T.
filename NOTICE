@@ -26,28 +26,42 @@ Licensed under the MIT License
 Source: https://www.freertos.org/
 
 --------------------------------------------------------------------------------
-3. Adafruit DHT Sensor Library
+3. PlatformIO Core
+--------------------------------------------------------------------------------
+Copyright (c) 2014-2026 PlatformIO
+Licensed under the Apache License, Version 2.0
+Source: https://github.com/platformio/platformio-core
+
+--------------------------------------------------------------------------------
+4. PlatformIO Espressif 8266 Platform
+--------------------------------------------------------------------------------
+Copyright (c) 2014-2026 PlatformIO
+Licensed under the Apache License, Version 2.0
+Source: https://github.com/platformio/platform-espressif8266
+
+--------------------------------------------------------------------------------
+5. Adafruit DHT Sensor Library
 --------------------------------------------------------------------------------
 Copyright (c) 2012-2026 Adafruit Industries
 Licensed under the MIT License
 Source: https://github.com/adafruit/DHT-sensor-library
 
 --------------------------------------------------------------------------------
-4. Adafruit Unified Sensor Driver
+6. Adafruit Unified Sensor Driver
 --------------------------------------------------------------------------------
 Copyright (c) 2012-2026 Adafruit Industries
 Licensed under the Apache License, Version 2.0
 Source: https://github.com/adafruit/Adafruit_Sensor
 
 --------------------------------------------------------------------------------
-5. ArduinoJson (optional, if used)
+7. ArduinoJson (optional, if used)
 --------------------------------------------------------------------------------
 Copyright (c) 2014-2026 Benoit Blanchon
 Licensed under the MIT License
 Source: https://github.com/bblanchon/ArduinoJson
 
 --------------------------------------------------------------------------------
-6. ESP8266WebServer
+8. ESP8266WebServer
 --------------------------------------------------------------------------------
 Part of the ESP8266 Arduino Core
 Copyright (c) 2014-2026 Ivan Grokhotkov and contributors
@@ -55,7 +69,7 @@ Licensed under the GNU Lesser General Public License v2.1 (LGPL-2.1)
 Source: https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WebServer
 
 --------------------------------------------------------------------------------
-7. DNSServer
+9. DNSServer
 --------------------------------------------------------------------------------
 Part of the ESP8266 Arduino Core
 Copyright (c) 2014-2026 Ivan Grokhotkov and contributors
@@ -63,11 +77,18 @@ Licensed under the GNU Lesser General Public License v2.1 (LGPL-2.1)
 Source: https://github.com/esp8266/Arduino/tree/master/libraries/DNSServer
 
 --------------------------------------------------------------------------------
-8. LittleFS for ESP8266
+10. LittleFS for ESP8266
 --------------------------------------------------------------------------------
 Copyright (c) 2018-2026 ARM Limited and contributors
 Licensed under the Apache License, Version 2.0
 Source: https://github.com/ARMmbed/littlefs
+
+--------------------------------------------------------------------------------
+11. GitHub Actions (CI/CD)
+--------------------------------------------------------------------------------
+Copyright (c) 2026 GitHub, Inc.
+Licensed under the GitHub Terms of Service
+Source: https://github.com/features/actions
 
 ================================================================================
 TRADEMARKS
@@ -80,6 +101,7 @@ endorsement.
 - "NodeMCU" is a trademark of the NodeMCU Development Team.
 - "ESP8266" is a trademark of Espressif Systems.
 - "Arduino" is a trademark of Arduino AG.
+- "PlatformIO" is a trademark of PlatformIO Labs.
 - "E88" refers to the FPV camera module used for video transmission.
 - All other trademarks are the property of their respective owners.
 
