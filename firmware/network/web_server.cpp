@@ -39,6 +39,7 @@ void WebServerManager::init() {
     server_.on("/api/release", HTTP_POST, APIHandlers::handleRelease);
     server_.on("/api/buzzer", HTTP_POST, [](AsyncWebServerRequest *request) {}, NULL, APIHandlers::handleBuzzer);
     server_.on("/api/calibrate", HTTP_POST, [](AsyncWebServerRequest *request) {}, NULL, APIHandlers::handleCalibrate);
+    server_.on("/api/headlights", HTTP_POST, [](AsyncWebServerRequest *request) {}, NULL, APIHandlers::handleHeadlights);
 
     // DELETE endpoints
     server_.on("/api/logs", HTTP_DELETE, APIHandlers::handleDeleteLogs);

@@ -63,6 +63,12 @@ struct ControllerState {
     int32_t axisY = 0;
 };
 
+struct HeadlightsState {
+    uint8_t mode = 0; // 0:OFF, 1:LOW, 2:HIGH, 3:HAZARD, 4:AUTO
+    uint8_t brightness = 255;
+    uint32_t color = 0xFFFFFF;
+};
+
 struct SystemState {
     OperatingMode mode = OperatingMode::MANUAL;
     AlertLevel alert_level = AlertLevel::NORMAL;
@@ -74,6 +80,7 @@ struct SystemState {
     DHTData dht_external;
     BatteryData battery;
     ControllerState controller;
+    HeadlightsState headlights;
 
     bool emergency_stop = false;
     bool camera_connected = true;
@@ -95,6 +102,9 @@ public:
     void updateDHTExternal(float temp, float humidity, const String& status);
     void updateBattery(float voltage, uint8_t percentage, uint32_t runtime_min, bool is_low);
     void updateController(bool connected, uint8_t batt, const String& last_input, int32_t x, int32_t y);
+
+    void setHeadlightMode(uint8_t mode);
+    void setHeadlightBrightness(uint8_t brightness);
 
     void setMode(OperatingMode mode);
     OperatingMode getMode();

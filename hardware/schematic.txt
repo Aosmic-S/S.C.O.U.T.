@@ -17,6 +17,7 @@
    +---+             |                           |
                      | GPIO 4         <---------->|--- Internal DHT11 Data (10k pullup to 3.3V)
                      | GPIO 2         <---------->|--- External DHT11 Data (10k pullup to 3.3V)
+                     | GPIO 18        ----------->|--- Dual WS2812 Headlights Data Line
                      | GPIO 15        ----------->|--- Active Buzzer (+)
                      | GPIO 5         ----------->|--- Onboard Status LED
                      +---------------------------+

@@ -49,6 +49,8 @@ static_assert(sizeof(SCOUT_CODENAME) > 1, "SCOUT_CODENAME must be defined");
 #define PIN_DHT_EXTERNAL    2    // External DHT11 (10k pull-up to 3.3V)
 #define PIN_BUZZER          15   // Active Buzzer
 #define PIN_STATUS_LED      5    // Onboard Status LED
+#define PIN_HEADLIGHTS_WS2812 18 // WS2812 Dual Headlights
+#define NUM_HEADLIGHT_LEDS  2    // 2 WS2812 LEDs
 
 // ============================================================================
 // BATTERY MONITOR SETTINGS

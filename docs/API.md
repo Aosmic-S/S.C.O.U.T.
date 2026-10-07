@@ -22,7 +22,7 @@ All `/api/*` endpoints respond in JSON format. When an error occurs, the standar
 ## GET Endpoints
 
 ### 1. `GET /api/status`
-Returns overall system telemetry, uptime, memory, WiFi, and controller status.
+Returns overall system telemetry, uptime, memory, WiFi, headlights, and controller status.
 
 ### 2. `GET /api/sensors`
 Returns sensor readings:
@@ -52,6 +52,7 @@ Downloads LittleFS mission logs in CSV format.
 - `POST /api/mode`: Request body `{"mode": "manual|sniffer|perimeter|rtl"}`
 - `POST /api/stop`: Activates software Emergency Stop.
 - `POST /api/release`: Releases Emergency Stop.
+- `POST /api/headlights`: Request body `{"mode": "off|low|high|hazard|auto", "brightness": 0-255}`
 - `POST /api/buzzer`: Request body `{"pattern": "beep|alarm|silence", "duration_ms": 200}`
 - `POST /api/calibrate`: Request body `{"sensor": "mq2|mq135|all", "ro_kohm": 9.83}`
 

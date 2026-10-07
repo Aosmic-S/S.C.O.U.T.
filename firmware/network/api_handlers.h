@@ -24,6 +24,7 @@ public:
     static void handleRelease(AsyncWebServerRequest *request);
     static void handleBuzzer(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total);
     static void handleCalibrate(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total);
+    static void handleHeadlights(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total);
     static void handleDeleteLogs(AsyncWebServerRequest *request);
 
     static void sendErrorResponse(AsyncWebServerRequest *request, int code, const String& error, const String& message);

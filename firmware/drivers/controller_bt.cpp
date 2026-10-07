@@ -14,6 +14,7 @@
 #include "sensor_mq135.h"
 #include "sensor_dht.h"
 #include "battery_monitor.h"
+#include "headlights_ws2812.h"
 
 static ControllerPtr myControllers[BP32_MAX_GAMEPADS];
 
@@ -54,6 +55,7 @@ void BluetoothController::onDisconnectedController(ControllerPtr ctl) {
 void BluetoothController::init() {
     BP32.setup(onConnectedController, onDisconnectedController);
     BP32.forgetBluetoothKeys();
+    HeadlightsDriver::instance().init();
 }
 
 void BluetoothController::update() {
@@ -159,6 +161,7 @@ extern "C" void sensor_drivers_update() {
     DualDHTSensor::instance().update();
     BatteryMonitor::instance().update();
     BuzzerDriver::instance().update();
+    HeadlightsDriver::instance().update();
 }
 
 extern "C" void bluetooth_controller_update() {

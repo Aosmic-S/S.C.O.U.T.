@@ -28,6 +28,7 @@
 | Analog | Battery | GPIO 32 | ADC1 Channel 4 (Voltage Divider) |
 | Digital | DHT11 Internal | GPIO 4 | Chassis internal temp/hum (10kΩ pull-up) |
 | Digital | DHT11 External | GPIO 2 | Ambient temp/hum (10kΩ pull-up) |
+| Digital | WS2812 Headlights | GPIO 18 | Dual WS2812 RGB Headlights Data Line |
 | Output | Buzzer | GPIO 15 | Active Buzzer |
 | Output | Status LED | GPIO 5 | Onboard status LED |
 

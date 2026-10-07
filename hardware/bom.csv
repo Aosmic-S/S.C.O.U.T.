@@ -4,6 +4,7 @@ L298N,Dual H-bridge motor driver,1,MD1,4 DC motors driven in parallel pairs
 MQ2,Smoke / LPG / Methane gas sensor,1,SEN1,Direct to GPIO 34 (ADC1)
 MQ135,Air quality / CO2 / NH3 gas sensor,1,SEN2,Direct to GPIO 35 (ADC1)
 DHT11,Temperature & Humidity sensor,2,SEN3 SEN4,Internal (GPIO 4) & External (GPIO 2)
+WS2812,5050 RGB Smart LED,2,LED1 LED2,Headlights on GPIO 18
 10k Ohm Resistor,Pull-up resistor for DHT11,2,R3 R4,10k 1/4W
 100k Ohm Resistor,Battery voltage divider high side,1,R1,100k 1/4W (0.1% recommended)
 22k Ohm Resistor,Battery voltage divider low side,1,R2,22k 1/4W (0.1% recommended)

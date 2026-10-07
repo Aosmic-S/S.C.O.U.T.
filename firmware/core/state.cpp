@@ -95,6 +95,20 @@ void StateManager::updateController(bool connected, uint8_t batt, const String& 
     }
 }
 
+void StateManager::setHeadlightMode(uint8_t mode) {
+    if (mutex_ != NULL && xSemaphoreTake(mutex_, pdMS_TO_TICKS(100)) == pdTRUE) {
+        state_.headlights.mode = mode;
+        xSemaphoreGive(mutex_);
+    }
+}
+
+void StateManager::setHeadlightBrightness(uint8_t brightness) {
+    if (mutex_ != NULL && xSemaphoreTake(mutex_, pdMS_TO_TICKS(100)) == pdTRUE) {
+        state_.headlights.brightness = brightness;
+        xSemaphoreGive(mutex_);
+    }
+}
+
 void StateManager::setMode(OperatingMode mode) {
     if (mutex_ != NULL && xSemaphoreTake(mutex_, pdMS_TO_TICKS(100)) == pdTRUE) {
         state_.mode = mode;

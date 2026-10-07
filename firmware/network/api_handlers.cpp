@@ -14,6 +14,7 @@
 #include "../drivers/buzzer.h"
 #include "../drivers/sensor_mq2.h"
 #include "../drivers/sensor_mq135.h"
+#include "../drivers/headlights_ws2812.h"
 #include "wifi_sta.h"
 #include <ArduinoJson.h>
 
@@ -54,6 +55,7 @@ void APIHandlers::handleStatus(AsyncWebServerRequest *request) {
     doc["camera_connected"] = st.camera_connected;
     doc["controller_connected"] = st.controller.connected;
     doc["controller_battery"] = st.controller.battery;
+    doc["headlights_mode"] = st.headlights.mode;
     doc["watchdog_resets"] = st.watchdog_resets;
     doc["emergency_stop"] = st.emergency_stop;
 
@@ -273,6 +275,39 @@ void APIHandlers::handleCalibrate(AsyncWebServerRequest *request, uint8_t *data,
     StaticJsonDocument<128> res;
     res["ok"] = true;
     res["calibrated"] = sensor;
+    String response;
+    serializeJson(res, response);
+    request->send(200, "application/json", response);
+}
+
+void APIHandlers::handleHeadlights(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total) {
+    if (!checkToken(request)) {
+        sendErrorResponse(request, 403, "UNAUTHORIZED", "Invalid or missing X-SCOUT-Token header");
+        return;
+    }
+
+    StaticJsonDocument<256> doc;
+    DeserializationError err = deserializeJson(doc, data, len);
+    if (err) {
+        sendErrorResponse(request, 400, "INVALID_JSON", err.c_str());
+        return;
+    }
+
+    String mode_str = doc["mode"] | "off";
+    uint8_t brightness = doc["brightness"] | 255;
+
+    HeadlightsDriver::instance().setBrightness(brightness);
+
+    if (mode_str == "low") HeadlightsDriver::instance().setMode(HeadlightMode::LOW_BEAM);
+    else if (mode_str == "high") HeadlightsDriver::instance().setMode(HeadlightMode::HIGH_BEAM);
+    else if (mode_str == "hazard") HeadlightsDriver::instance().setMode(HeadlightMode::HAZARD);
+    else if (mode_str == "auto") HeadlightsDriver::instance().setMode(HeadlightMode::AUTO);
+    else HeadlightsDriver::instance().setMode(HeadlightMode::OFF);
+
+    StaticJsonDocument<128> res;
+    res["ok"] = true;
+    res["mode"] = mode_str;
+    res["brightness"] = brightness;
     String response;
     serializeJson(res, response);
     request->send(200, "application/json", response);

@@ -60,6 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const dhteHum = document.getElementById('dhte-hum');
   const dhteStatus = document.getElementById('dhte-status');
 
+  // Headlights
+  const headlightsBadge = document.getElementById('headlights-badge');
+
   // System
   const sysIp = document.getElementById('sys-ip');
   const sysUptime = document.getElementById('sys-uptime');
@@ -148,6 +151,11 @@ document.addEventListener('DOMContentLoaded', () => {
           btn.classList.remove('active');
         }
       });
+
+      // Update Headlights badge
+      const lightModes = ['OFF', 'LOW', 'HIGH', 'HAZARD', 'AUTO'];
+      const lightModeName = lightModes[data.headlights_mode] || 'OFF';
+      headlightsBadge.textContent = lightModeName;
     } else {
       state.connected = false;
       connBadge.classList.remove('connected');
@@ -220,6 +228,20 @@ document.addEventListener('DOMContentLoaded', () => {
       battBadge.className = 'badge badge-normal';
     }
   }
+
+  // Headlight Mode Buttons
+  document.querySelectorAll('.headlight-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const mode = btn.dataset.lightMode;
+      const res = await apiFetch('/api/headlights', 'POST', { mode, brightness: 255 });
+      if (res && res.ok) {
+        showToast(`Headlights set to: ${mode.toUpperCase()}`);
+        document.querySelectorAll('.headlight-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        pollStatus();
+      }
+    });
+  });
 
   // Drive Commands
   function sendMove(dir) {
