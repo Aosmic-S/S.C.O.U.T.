@@ -11,12 +11,14 @@
 #include "logger.h"
 #include "../config.h"
 
-// Weak stubs for driver / network functions until layers 3-4 are added
+// Weak stubs with C linkage to match extern "C" driver functions
+extern "C" {
 __attribute__((weak)) void motor_driver_update() {}
 __attribute__((weak)) void web_server_update() {}
 __attribute__((weak)) void bluetooth_controller_update() {}
 __attribute__((weak)) void sensor_drivers_update() {}
 __attribute__((weak)) void wifi_manager_update() {}
+}
 
 TaskManager& TaskManager::instance() {
     static TaskManager instance_;
