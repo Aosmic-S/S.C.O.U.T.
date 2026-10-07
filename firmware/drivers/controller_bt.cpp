@@ -160,10 +160,10 @@ extern "C" void sensor_drivers_update() {
     MQ135Sensor::instance().update();
     DualDHTSensor::instance().update();
     BatteryMonitor::instance().update();
-    BuzzerDriver::instance().update();
-    HeadlightsDriver::instance().update();
 }
 
 extern "C" void bluetooth_controller_update() {
     BluetoothController::instance().update();
+    BuzzerDriver::instance().update();
+    HeadlightsDriver::instance().update();
 }

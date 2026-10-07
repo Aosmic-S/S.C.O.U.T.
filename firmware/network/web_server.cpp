@@ -44,8 +44,8 @@ void WebServerManager::init() {
     // DELETE endpoints
     server_.on("/api/logs", HTTP_DELETE, APIHandlers::handleDeleteLogs);
 
-    // Serve static files from LittleFS with gzip compression enabled
-    server_.serveStatic("/", LittleFS, "/web/").setDefaultFile("index.html");
+    // Serve static files from root of LittleFS (mapped via board_build.data_dir = firmware/web)
+    server_.serveStatic("/", LittleFS, "/").setDefaultFile("index.html");
 
     // Captive portal fallback redirect
     server_.onNotFound([](AsyncWebServerRequest *request) {

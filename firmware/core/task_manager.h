@@ -12,6 +12,20 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void motor_driver_update();
+void web_server_update();
+void bluetooth_controller_update();
+void sensor_drivers_update();
+void wifi_manager_update();
+
+#ifdef __cplusplus
+}
+#endif
+
 class TaskManager {
 public:
     static TaskManager& instance();
