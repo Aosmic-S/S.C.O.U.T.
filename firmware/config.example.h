@@ -85,7 +85,7 @@ static_assert(sizeof(SCOUT_CODENAME) > 1, "SCOUT_CODENAME must be defined");
 // ============================================================================
 // NETWORKING & CAPTIVE PORTAL
 // ============================================================================
-#define CAMERA_SSID         "E88_FPV_DRONE"
+#define CAMERA_SSID         "FLOW-WIFI-2CDBC"
 #define CAMERA_PASS         ""         // Open WiFi AP
 #define WIFI_RECONNECT_MS   5000       // Auto-reconnect interval
 #define WIFI_BOOT_TIMEOUT_MS 15000     // Boot timeout for WiFi
