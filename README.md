@@ -31,7 +31,7 @@
 
 *Because in a disaster zone, every second and every sensor reading matters.*
 
-[Features](#-features) • [Architecture](#-system-architecture) • [Hardware](#-hardware-requirements) • [API Guide](docs/API.md) • [Wiring](docs/WIRING.md) • [License](#-license)
+[Features](#-key-features) • [Architecture](docs/ARCHITECTURE.md) • [Hardware](#-hardware-requirements--pin-mapping) • [Flashing Guide](#-flashing-guide) • [API Guide](docs/API.md) • [Wiring](docs/WIRING.md) • [License](#-license)
 
 </div>
 
@@ -41,7 +41,7 @@
 
 **S.C.O.U.T. (v0.27.0 "OP")** is a modular firmware framework — a rescue bot "OS" designed for an ESP32 LOLIN32 controller operating in hazardous post-disaster environments.
 
-It continuously monitors toxic gases (MQ2, MQ135), internal and external environmental conditions (dual DHT11), tracks battery status via a precision resistor divider on ADC1, supports Bluetooth gamepad control (CLAW Shoot V3), and provides a non-blocking web dashboard served from LittleFS over an open FPV camera access point.
+It continuously monitors toxic gases (MQ2, MQ135), internal and external environmental conditions (dual DHT11), tracks battery status via a precision resistor divider on ADC1, drives WS2812 RGB headlights, supports Bluetooth gamepad control (CLAW Shoot V3), and provides a non-blocking web dashboard served from LittleFS over the `FLOW-WIFI-2CDBC` open access point.
 
 ---
 
@@ -49,11 +49,38 @@ It continuously monitors toxic gases (MQ2, MQ135), internal and external environ
 
 - **Dual Gas Detection**: Direct ADC1 sampling of MQ2 (smoke/LPG) and MQ135 (air quality) with logarithmic PPM calculation and calibration routines.
 - **Dual Environmental Sensing**: Dual DHT11 monitoring internal chassis and external ambient conditions.
+- **WS2812 RGB Headlights**: Dual WS2812 headlights on GPIO 18 supporting Low, High, Hazard, and Auto emergency modes.
 - **CLAW Shoot V3 Bluetooth Host**: Direct BT HID gamepad driving via Bluepad32 in Standard Mode.
 - **Fail-Safe Motor Driver**: L298N motor control with dead-man timeout (3s), stall protection (PWM > 50% for 2s + batt < 10V), and emergency stop.
 - **Non-Blocking Web Dashboard**: ESPAsyncWebServer single-page application served from LittleFS with dark UI, 14 telemetry cards, and gzip support.
 - **Captive Portal DNS**: All web requests automatically redirected to the S.C.O.U.T. control dashboard.
 - **Mission Black-Box Logging**: Telemetry recorded to `/logs/mission.csv` in LittleFS with brownout tracking in RTC memory.
+
+---
+
+## ⚡ Flashing Guide
+
+To flash the compiled firmware binaries directly to your ESP32 LOLIN32 using `esptool.py` (or ESP Web Flasher / Flash Download Tools), flash each file to its designated offset address:
+
+| Flash Address Offset | Binary File | Purpose |
+|----------------------|-------------|---------|
+| `0x1000` | `bootloader.bin` | ESP32 Second Stage Bootloader |
+| `0x8000` | `partitions.bin` | Partition Table Schema |
+| `0xe000` | `boot_app0.bin` | OTA Boot App Selector Data |
+| `0x10000` | `firmware.bin` (or `SCOUT.ino.bin`) | Main S.C.O.U.T. Application Firmware |
+
+### Complete `esptool.py` Command
+
+```bash
+esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 921600 \
+  --before default_reset --after hard_reset write_flash -z \
+  0x1000 bootloader.bin \
+  0x8000 partitions.bin \
+  0xe000 boot_app0.bin \
+  0x10000 firmware.bin
+```
+
+> 💡 *Note: Binary artifacts (`bootloader.bin`, `partitions.bin`, `boot_app0.bin`, `firmware.bin`) are automatically compiled and made available for download in the GitHub Actions **Actions** tab on every build.*
 
 ---
 
@@ -68,6 +95,7 @@ It continuously monitors toxic gases (MQ2, MQ135), internal and external environ
 | Battery Divider | GPIO 32 | ADC1, R1=100kΩ, R2=22kΩ |
 | Internal DHT11 | GPIO 4 | Digital (10kΩ pull-up) |
 | External DHT11 | GPIO 2 | Digital (10kΩ pull-up) |
+| WS2812 Headlights | GPIO 18 | Dual WS2812 RGB LED Data |
 | Active Buzzer | GPIO 15 | Audio alarms & beeps |
 | Status LED | GPIO 5 | Onboard LED |
 
