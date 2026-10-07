@@ -10,6 +10,15 @@
 #include "watchdog.h"
 #include "logger.h"
 #include "../config.h"
+#include "../drivers/motor_l298n.h"
+#include "../drivers/sensor_mq2.h"
+#include "../drivers/sensor_mq135.h"
+#include "../drivers/sensor_dht.h"
+#include "../drivers/battery_monitor.h"
+#include "../drivers/buzzer.h"
+#include "../drivers/headlights_ws2812.h"
+#include "../drivers/controller_bt.h"
+#include "../network/web_server.h"
 
 // Weak stubs with C linkage to match extern "C" driver functions
 extern "C" {
@@ -31,6 +40,17 @@ void TaskManager::init() {
     StateManager::instance().init();
     WatchdogManager::instance().init();
     LoggerManager::instance().init();
+
+    // Explicit subsystem driver initializations
+    MotorDriver::instance().init();
+    MQ2Sensor::instance().init();
+    MQ135Sensor::instance().init();
+    DualDHTSensor::instance().init();
+    BatteryMonitor::instance().init();
+    BuzzerDriver::instance().init();
+    HeadlightsDriver::instance().init();
+    BluetoothController::instance().init();
+    WebServerManager::instance().init();
 }
 
 void TaskManager::startAllTasks() {
