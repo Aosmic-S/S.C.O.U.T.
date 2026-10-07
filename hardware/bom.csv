@@ -1,0 +1,15 @@
+Item,Description,Quantity,Designator,Notes
+ESP32 LOLIN32,CP2102 USB MCU board,1,MCU1,Main controller
+L298N,Dual H-bridge motor driver,1,MD1,4 DC motors driven in parallel pairs
+MQ2,Smoke / LPG / Methane gas sensor,1,SEN1,Direct to GPIO 34 (ADC1)
+MQ135,Air quality / CO2 / NH3 gas sensor,1,SEN2,Direct to GPIO 35 (ADC1)
+DHT11,Temperature & Humidity sensor,2,SEN3 SEN4,Internal (GPIO 4) & External (GPIO 2)
+10k Ohm Resistor,Pull-up resistor for DHT11,2,R3 R4,10k 1/4W
+100k Ohm Resistor,Battery voltage divider high side,1,R1,100k 1/4W (0.1% recommended)
+22k Ohm Resistor,Battery voltage divider low side,1,R2,22k 1/4W (0.1% recommended)
+Active Buzzer,5V active buzzer,1,BZ1,GPIO 15
+E88 FPV Camera,Self-contained open WiFi AP camera,1,CAM1,5V power only
+12V Li-ion Battery,3S 12.6V max battery pack,1,BAT1,Main power
+DC Buck Converter,12V to 5V 3A buck converter,1,REG1,Powers ESP32 and logic
+DC Motors,12V TT gear DC motors,4,M1 M2 M3 M4,Parallel pairs (Left/Right)
+CLAW Shoot V3,Bluetooth Gamepad,1,CTL1,Standard Mode (X+HOME)

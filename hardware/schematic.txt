@@ -1,0 +1,23 @@
+# S.C.O.U.T. Schematic Diagram (v0.27.0 "OP")
+
+```
+                     +---------------------------+
+                     |    ESP32 LOLIN32 (CP2102) |
+                     |                           |
+ 12V Li-ion Battery  | GPIO 34 (ADC1) <----------|--- MQ2 Sensor Output
+   +---+             | GPIO 35 (ADC1) <----------|--- MQ135 Sensor Output
+   |   |-------------| GPIO 32 (ADC1) <----------|--- Battery Divider (R1 100k / R2 22k)
+   |12V|             |                           |
+   +---+             | GPIO 13 (PWM)  ----------->|--- L298N ENA (Left Speed)
+     |               | GPIO 12        ----------->|--- L298N IN1
+  Buck Conv          | GPIO 14        ----------->|--- L298N IN2
+  (12V->5V)          | GPIO 27 (PWM)  ----------->|--- L298N ENB (Right Speed)
+   +---+             | GPIO 26        ----------->|--- L298N IN3
+   | 5V|------------>| GPIO 25        ----------->|--- L298N IN4
+   +---+             |                           |
+                     | GPIO 4         <---------->|--- Internal DHT11 Data (10k pullup to 3.3V)
+                     | GPIO 2         <---------->|--- External DHT11 Data (10k pullup to 3.3V)
+                     | GPIO 15        ----------->|--- Active Buzzer (+)
+                     | GPIO 5         ----------->|--- Onboard Status LED
+                     +---------------------------+
+```
