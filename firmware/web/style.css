@@ -2,7 +2,7 @@
  * Copyright 2026 Absolute Tech
  * Licensed under the Apache License, Version 2.0
  * Project: S.C.O.U.T. — Version v0.27.0 "OP"
- * File: style.css · Purpose: Mobile-first dark theme CSS stylesheet for web dashboard
+ * File: style.css · Purpose: Redesigned mobile-first dark theme CSS stylesheet for web dashboard
  */
 
 :root {
@@ -39,7 +39,7 @@ body {
   margin: 0 auto;
 }
 
-/* 3. Fixed Emergency Stop Button */
+/* Fixed Emergency Stop Button */
 .estop-fixed {
   position: fixed;
   top: 16px;
@@ -66,7 +66,7 @@ body {
   box-shadow: 0 4px 12px rgba(34, 197, 94, 0.5);
 }
 
-/* 1. Header */
+/* Header */
 .header {
   display: flex;
   justify-content: space-between;
@@ -118,7 +118,7 @@ body {
   background-color: var(--success);
 }
 
-/* 2. Alert Banner */
+/* Alert Banner */
 .alert-banner {
   display: flex;
   align-items: center;
@@ -192,6 +192,11 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.glow-card:hover {
+  border-color: var(--accent-color);
 }
 
 .card-header {
@@ -329,6 +334,57 @@ body {
   color: var(--accent-color);
 }
 
+/* Controller Guide Boxes */
+.controller-guide-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .controller-guide-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.pairing-box, .mapping-box {
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.pairing-box h4, .mapping-box h4 {
+  font-size: 0.95rem;
+  color: var(--accent-color);
+  margin-bottom: 8px;
+}
+
+.pairing-box p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.mapping-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+
+.mapping-grid div {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dashed rgba(255,255,255,0.05);
+  padding-bottom: 2px;
+}
+
+.mapping-grid strong {
+  color: var(--text-main);
+  font-family: var(--font-mono);
+}
+
 /* Drive Controls */
 .speed-control {
   display: flex;
@@ -452,7 +508,7 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 14. Footer */
+/* Footer */
 .footer {
   text-align: center;
   margin-top: 30px;
