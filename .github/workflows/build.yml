@@ -49,12 +49,17 @@ jobs:
         run: |
           pio run -e lolin32
 
+      - name: Prepare Binary Artifacts
+        run: |
+          cp ~/.platformio/packages/framework-arduinoespressif32/tools/partitions/boot_app0.bin .pio/build/lolin32/boot_app0.bin
+
       - name: Upload Firmware Binary Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: scout-firmware-v0.27.0-OP
           path: |
-            .pio/build/lolin32/firmware.bin
             .pio/build/lolin32/bootloader.bin
             .pio/build/lolin32/partitions.bin
+            .pio/build/lolin32/boot_app0.bin
+            .pio/build/lolin32/firmware.bin
           retention-days: 30
