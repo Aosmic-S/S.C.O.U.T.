@@ -1,4 +1,4 @@
-name: Build Firmware
+name: Scout Firmware 0.27.0
 
 on:
   push:
@@ -56,7 +56,7 @@ jobs:
       - name: Upload Firmware Binary Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: scout-firmware-v0.27.0-OP
+          name:scout-v0.27.0 OP
           path: |
             .pio/build/lolin32/bootloader.bin
             .pio/build/lolin32/partitions.bin
