@@ -6,16 +6,22 @@ on:
     paths:
       - 'firmware/**'
       - 'platformio.ini'
+      - '.github/workflows/build.yml'
   pull_request:
     branches: [ main ]
     paths:
       - 'firmware/**'
       - 'platformio.ini'
+      - '.github/workflows/build.yml'
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
@@ -49,17 +55,52 @@ jobs:
         run: |
           pio run -e lolin32
 
+      - name: Build web UI filesystem image (LittleFS)
+        env:
+          PLATFORMIO_DATA_DIR: ${{ github.workspace }}/firmware/web
+        run: |
+          pio run -e lolin32 -t buildfs
+
       - name: Prepare Binary Artifacts
         run: |
           cp ~/.platformio/packages/framework-arduinoespressif32/tools/partitions/boot_app0.bin .pio/build/lolin32/boot_app0.bin
 
+      - name: Verify all binaries exist
+        run: |
+          cd .pio/build/lolin32
+          for f in bootloader.bin partitions.bin boot_app0.bin firmware.bin littlefs.bin; do
+            if [ ! -s "$f" ]; then
+              echo "::error::Missing or empty build output: $f"
+              exit 1
+            fi
+          done
+          ls -l bootloader.bin partitions.bin boot_app0.bin firmware.bin littlefs.bin
+
+      - name: Show flash offsets in run summary
+        run: |
+          {
+            echo "### Flash offsets (ESP32 LOLIN32, default 4 MB partition table)"
+            echo ""
+            echo "| Offset | File |"
+            echo "|--------|------|"
+            echo "| 0x1000 | bootloader.bin |"
+            echo "| 0x8000 | partitions.bin |"
+            echo "| 0xe000 | boot_app0.bin |"
+            echo "| 0x10000 | firmware.bin |"
+            echo "| 0x290000 | littlefs.bin (web UI) |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload Firmware Binary Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name:scout-v0.27.0 OP
+          name: scout-v0.27.0-OP
           path: |
             .pio/build/lolin32/bootloader.bin
             .pio/build/lolin32/partitions.bin
             .pio/build/lolin32/boot_app0.bin
             .pio/build/lolin32/firmware.bin
+            .pio/build/lolin32/littlefs.bin
+          if-no-files-found: error
+          include-hidden-files: true
+          overwrite: true
           retention-days: 30
