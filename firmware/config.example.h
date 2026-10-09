@@ -85,8 +85,10 @@ static_assert(sizeof(SCOUT_CODENAME) > 1, "SCOUT_CODENAME must be defined");
 // ============================================================================
 // NETWORKING & CAPTIVE PORTAL
 // ============================================================================
-#define CAMERA_SSID         "FLOW-WIFI-2CDBC"
-#define CAMERA_PASS         ""         // Open WiFi AP
+#define AP_SSID             "SCOUT-OP"
+#define AP_PASS             "scout1234"  // min 8 chars, or "" for open network
+#define AP_CHANNEL          6
+#define AP_MAX_CLIENTS      4
 #define WIFI_RECONNECT_MS   5000       // Auto-reconnect interval
 #define WIFI_BOOT_TIMEOUT_MS 15000     // Boot timeout for WiFi
 #define HTTP_SERVER_PORT    80
