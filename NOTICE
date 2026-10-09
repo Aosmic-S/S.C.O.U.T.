@@ -1,8 +1,14 @@
+/*
+ * Copyright 2026 Absolute Tech
+ * Licensed under the Apache License, Version 2.0
+ * Project: S.C.O.U.T. — Version v0.27.0 "OP"
+ * File: NOTICE · Purpose: Third-party notices and attributions
+ */
+
 S.C.O.U.T. — Safety Control & Observation Unit Tech
 Copyright 2026 Absolute Tech
 
-This product includes software developed by Team Absolute Tech
-(https://github.com/[your-username]/SCOUT).
+This product includes software developed by Team Absolute Tech.
 
 ================================================================================
 THIRD-PARTY COMPONENTS
@@ -12,11 +18,11 @@ This product includes the following third-party open-source software.
 The respective copyright notices and licenses are listed below.
 
 --------------------------------------------------------------------------------
-1. ESP8266 Arduino Core
+1. ESP32 Arduino Core
 --------------------------------------------------------------------------------
-Copyright (c) 2014-2026 Ivan Grokhotkov and contributors
+Copyright (c) 2015-2026 Espressif Systems (Shanghai) PTE LTD
 Licensed under the GNU Lesser General Public License v2.1 (LGPL-2.1)
-Source: https://github.com/esp8266/Arduino
+Source: https://github.com/espressif/arduino-esp32
 
 --------------------------------------------------------------------------------
 2. FreeRTOS Kernel
@@ -33,58 +39,70 @@ Licensed under the Apache License, Version 2.0
 Source: https://github.com/platformio/platformio-core
 
 --------------------------------------------------------------------------------
-4. PlatformIO Espressif 8266 Platform
+4. PlatformIO Espressif 32 Platform
 --------------------------------------------------------------------------------
 Copyright (c) 2014-2026 PlatformIO
 Licensed under the Apache License, Version 2.0
-Source: https://github.com/platformio/platform-espressif8266
+Source: https://github.com/platformio/platform-espressif32
 
 --------------------------------------------------------------------------------
-5. Adafruit DHT Sensor Library
+5. Bluepad32
+--------------------------------------------------------------------------------
+Copyright (c) 2021-2026 Ricardo Quesada
+Licensed under the Apache License, Version 2.0
+Source: https://github.com/ricardoquesada/bluepad32
+
+--------------------------------------------------------------------------------
+6. BTstack
+--------------------------------------------------------------------------------
+Copyright (c) 2026 BlueKitchen GmbH
+Licensed under commercial / open-source exceptions for non-commercial research
+Source: https://github.com/bluekitchen/btstack
+
+--------------------------------------------------------------------------------
+7. Adafruit DHT Sensor Library
 --------------------------------------------------------------------------------
 Copyright (c) 2012-2026 Adafruit Industries
 Licensed under the MIT License
 Source: https://github.com/adafruit/DHT-sensor-library
 
 --------------------------------------------------------------------------------
-6. Adafruit Unified Sensor Driver
+8. Adafruit Unified Sensor Driver
 --------------------------------------------------------------------------------
 Copyright (c) 2012-2026 Adafruit Industries
 Licensed under the Apache License, Version 2.0
 Source: https://github.com/adafruit/Adafruit_Sensor
 
 --------------------------------------------------------------------------------
-7. ArduinoJson (optional, if used)
+9. ESPAsyncWebServer
+--------------------------------------------------------------------------------
+Copyright (c) 2016-2026 Hristo Gochkov and contributors
+Licensed under the GNU Lesser General Public License v2.1 (LGPL-2.1)
+Source: https://github.com/me-no-dev/ESPAsyncWebServer
+
+--------------------------------------------------------------------------------
+10. AsyncTCP
+--------------------------------------------------------------------------------
+Copyright (c) 2018-2026 Hristo Gochkov
+Licensed under the GNU Lesser General Public License v2.1 (LGPL-2.1)
+Source: https://github.com/me-no-dev/AsyncTCP
+
+--------------------------------------------------------------------------------
+11. LittleFS for ESP32
+--------------------------------------------------------------------------------
+Copyright (c) 2018-2026 ARM Limited and Espressif Systems
+Licensed under the Apache License, Version 2.0
+Source: https://github.com/ARMmbed/littlefs
+
+--------------------------------------------------------------------------------
+12. ArduinoJson
 --------------------------------------------------------------------------------
 Copyright (c) 2014-2026 Benoit Blanchon
 Licensed under the MIT License
 Source: https://github.com/bblanchon/ArduinoJson
 
 --------------------------------------------------------------------------------
-8. ESP8266WebServer
---------------------------------------------------------------------------------
-Part of the ESP8266 Arduino Core
-Copyright (c) 2014-2026 Ivan Grokhotkov and contributors
-Licensed under the GNU Lesser General Public License v2.1 (LGPL-2.1)
-Source: https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WebServer
-
---------------------------------------------------------------------------------
-9. DNSServer
---------------------------------------------------------------------------------
-Part of the ESP8266 Arduino Core
-Copyright (c) 2014-2026 Ivan Grokhotkov and contributors
-Licensed under the GNU Lesser General Public License v2.1 (LGPL-2.1)
-Source: https://github.com/esp8266/Arduino/tree/master/libraries/DNSServer
-
---------------------------------------------------------------------------------
-10. LittleFS for ESP8266
---------------------------------------------------------------------------------
-Copyright (c) 2018-2026 ARM Limited and contributors
-Licensed under the Apache License, Version 2.0
-Source: https://github.com/ARMmbed/littlefs
-
---------------------------------------------------------------------------------
-11. GitHub Actions (CI/CD)
+13. GitHub Actions (CI/CD)
 --------------------------------------------------------------------------------
 Copyright (c) 2026 GitHub, Inc.
 Licensed under the GitHub Terms of Service
@@ -98,10 +116,10 @@ All product names, logos, and brands referenced in this project are the
 property of their respective owners. Use of these names does not imply
 endorsement.
 
-- "NodeMCU" is a trademark of the NodeMCU Development Team.
-- "ESP8266" is a trademark of Espressif Systems.
+- "ESP32" and "LOLIN32" are trademarks of Espressif Systems and WEMOS.
 - "Arduino" is a trademark of Arduino AG.
 - "PlatformIO" is a trademark of PlatformIO Labs.
+- "CLAW Shoot V3" refers to the Bluetooth gamepad manufactured by CLAW.
 - "E88" refers to the FPV camera module used for video transmission.
 - All other trademarks are the property of their respective owners.
 
@@ -118,18 +136,3 @@ This system is NOT certified for use in actual emergency, military, or
 life-critical rescue operations. It is intended for educational,
 experimental, and competition purposes only. Always follow local laws and
 safety regulations when operating robotic systems.
-
-================================================================================
-
-For the full text of the Apache License 2.0, see the LICENSE file.
-For the full text of the LGPL-2.1 license, see:
-    https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
-For the full text of the MIT License, see:
-    https://opensource.org/licenses/MIT
-
-================================================================================
-
-Contact: aosmicservices@gmail.com
-Project: https://github.com/Aosmic-S/S.C.O.U.T./
-
-================================================================================
