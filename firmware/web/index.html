@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2026 Absolute Tech
+  Licensed under the Apache License, Version 2.0
+  Project: S.C.O.U.T. — Version v0.27.0 "OP"
+  File: index.html · Purpose: Redesigned rescue bot web control dashboard HTML
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S.C.O.U.T. Control Center — OP v0.27.0</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Fixed Emergency Stop (top-right) -->
+  <button id="estop-btn" class="estop-fixed">E-STOP</button>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">🛰️</span>
+        <div class="logo-text">
+          <h1>S.C.O.U.T.</h1>
+          <span class="version-tag">v0.27.0 (OP) · Absolute Tech</span>
+        </div>
+      </div>
+      <div class="connection-badge" id="conn-badge">
+        <span class="status-dot"></span>
+        <span id="conn-status">Connecting...</span>
+      </div>
+    </header>
+
+    <!-- Alert Banner -->
+    <div id="alert-banner" class="alert-banner level-normal">
+      <span class="alert-icon">🛡️</span>
+      <span id="alert-message">System Nominal — All environmental parameters within safe thresholds.</span>
+    </div>
+
+    <main class="grid">
+      <!-- 1. MQ2 Card -->
+      <section class="card glow-card">
+        <div class="card-header">
+          <h3>🔥 MQ2 Gas Sensor</h3>
+          <span class="badge badge-normal" id="mq2-badge">NORMAL</span>
+        </div>
+        <div class="metric-main">
+          <span class="metric-val" id="mq2-ppm">0</span>
+          <span class="metric-unit">PPM</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="mq2-bar" style="width: 0%;"></div>
+        </div>
+        <div class="metric-sub">
+          <div>Raw: <span id="mq2-raw">0</span></div>
+          <div>Rs/Ro: <span id="mq2-rsro">0.00</span></div>
+          <div>Volts: <span id="mq2-volts">0.00V</span></div>
+        </div>
+      </section>
+
+      <!-- 2. MQ135 Card -->
+      <section class="card glow-card">
+        <div class="card-header">
+          <h3>☣️ MQ135 Air Quality</h3>
+          <span class="badge badge-normal" id="mq135-badge">NORMAL</span>
+        </div>
+        <div class="metric-main">
+          <span class="metric-val" id="mq135-ppm">0</span>
+          <span class="metric-unit">PPM</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="mq135-bar" style="width: 0%;"></div>
+        </div>
+        <div class="metric-sub">
+          <div>Raw: <span id="mq135-raw">0</span></div>
+          <div>Rs/Ro: <span id="mq135-rsro">0.00</span></div>
+          <div>Volts: <span id="mq135-volts">0.00V</span></div>
+        </div>
+      </section>
+
+      <!-- 3. AQI Card -->
+      <section class="card glow-card">
+        <div class="card-header">
+          <h3>📊 Air Quality Index</h3>
+          <span class="badge" id="aqi-badge">SAFE</span>
+        </div>
+        <div class="metric-main">
+          <span class="metric-val" id="aqi-val">0</span>
+          <span class="metric-unit">AQI</span>
+        </div>
+        <div class="aqi-gradient-bg">
+          <div class="aqi-marker" id="aqi-marker" style="left: 0%;"></div>
+        </div>
+        <div class="scale-labels">
+          <span>0 Good</span>
+          <span>250 Moderate</span>
+          <span>500 Hazardous</span>
+        </div>
+      </section>
+
+      <!-- 4. Battery Card -->
+      <section class="card glow-card">
+        <div class="card-header">
+          <h3>🔋 Battery Monitor</h3>
+          <span class="badge badge-normal" id="batt-badge">GOOD</span>
+        </div>
+        <div class="metric-main">
+          <span class="metric-val" id="batt-pct">0</span>
+          <span class="metric-unit">%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="batt-bar" style="width: 0%;"></div>
+        </div>
+        <div class="metric-sub">
+          <div>Voltage: <span id="batt-volts">0.00V</span></div>
+          <div>Est. Runtime: <span id="batt-runtime">0 min</span></div>
+        </div>
+      </section>
+
+      <!-- 5. Internal DHT11 Card -->
+      <section class="card">
+        <div class="card-header">
+          <h3>🌡️ Internal DHT11</h3>
+          <span class="badge badge-normal" id="dhti-status">OK</span>
+        </div>
+        <div class="dual-metric">
+          <div>
+            <span class="sub-label">Temp</span>
+            <span class="sub-val" id="dhti-temp">0.0</span> <span class="sub-unit">°C</span>
+          </div>
+          <div>
+            <span class="sub-label">Humidity</span>
+            <span class="sub-val" id="dhti-hum">0.0</span> <span class="sub-unit">%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. External DHT11 Card -->
+      <section class="card">
+        <div class="card-header">
+          <h3>🍃 External DHT11</h3>
+          <span class="badge badge-normal" id="dhte-status">OK</span>
+        </div>
+        <div class="dual-metric">
+          <div>
+            <span class="sub-label">Temp</span>
+            <span class="sub-val" id="dhte-temp">0.0</span> <span class="sub-unit">°C</span>
+          </div>
+          <div>
+            <span class="sub-label">Humidity</span>
+            <span class="sub-val" id="dhte-hum">0.0</span> <span class="sub-unit">%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. WS2812 Headlights Card -->
+      <section class="card">
+        <div class="card-header">
+          <h3>💡 WS2812 Headlights</h3>
+          <span class="badge badge-normal" id="headlights-badge">OFF</span>
+        </div>
+        <div class="headlight-controls">
+          <div class="mode-grid">
+            <button class="btn headlight-btn active" data-light-mode="off">Off</button>
+            <button class="btn headlight-btn" data-light-mode="low">Low</button>
+            <button class="btn headlight-btn" data-light-mode="high">High</button>
+            <button class="btn headlight-btn" data-light-mode="hazard">Hazard</button>
+            <button class="btn headlight-btn" data-light-mode="auto">Auto</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. System Telemetry Card -->
+      <section class="card">
+        <div class="card-header">
+          <h3>🖥️ System Telemetry</h3>
+        </div>
+        <div class="sys-grid">
+          <div><span>IP Address:</span> <strong id="sys-ip">0.0.0.0</strong></div>
+          <div><span>System Uptime:</span> <strong id="sys-uptime">0s</strong></div>
+          <div><span>WiFi RSSI:</span> <strong id="sys-rssi">0 dBm</strong></div>
+          <div><span>Free Heap:</span> <strong id="sys-heap">0 B</strong></div>
+          <div><span>Watchdog Resets:</span> <strong id="sys-wdt">0</strong></div>
+        </div>
+      </section>
+
+      <!-- 9. Drive Control Card (Wide) -->
+      <section class="card card-wide">
+        <div class="card-header">
+          <h3>🎮 Drive Controls</h3>
+          <div class="speed-control">
+            <label for="speed-slider">Drive Speed: <span id="speed-val">70</span>%</label>
+            <input type="range" id="speed-slider" min="20" max="100" value="70">
+          </div>
+        </div>
+        <div class="dpad-container">
+          <button class="dpad-btn dpad-up" id="btn-up">▲</button>
+          <button class="dpad-btn dpad-left" id="btn-left">◀</button>
+          <button class="dpad-btn dpad-center" id="btn-center">●</button>
+          <button class="dpad-btn dpad-right" id="btn-right">▶</button>
+          <button class="dpad-btn dpad-down" id="btn-down">▼</button>
+        </div>
+        <div class="rotate-btns">
+          <button class="btn btn-secondary" id="btn-rot-left">↺ Rotate Left</button>
+          <button class="btn btn-secondary" id="btn-rot-right">Rotate Right ↻</button>
+        </div>
+      </section>
+
+      <!-- 10. Operating Mode Card -->
+      <section class="card">
+        <div class="card-header">
+          <h3>⚙️ Operating Mode</h3>
+        </div>
+        <div class="mode-grid">
+          <button class="btn mode-btn active" data-mode="manual">Manual</button>
+          <button class="btn mode-btn" data-mode="sniffer">Sniffer</button>
+          <button class="btn mode-btn" data-mode="perimeter">Perimeter</button>
+          <button class="btn mode-btn" data-mode="rtl">Return (RTL)</button>
+        </div>
+      </section>
+
+      <!-- 11. Actions & Mission Data Card -->
+      <section class="card">
+        <div class="card-header">
+          <h3>💾 Actions & Mission Data</h3>
+        </div>
+        <div class="action-grid">
+          <button class="btn btn-action" id="btn-beep">🔊 Beep</button>
+          <button class="btn btn-action btn-danger" id="btn-alarm">🚨 Alarm</button>
+          <button class="btn btn-action" id="btn-silence">🔇 Silence</button>
+          <button class="btn btn-action" id="btn-download">💾 Download CSV</button>
+          <button class="btn btn-action btn-danger" id="btn-clear-log">🗑️ Clear Log</button>
+        </div>
+      </section>
+
+      <!-- 12. CLAW Shoot V3 Controller Guide & Settings Card (Wide) -->
+      <section class="card card-wide">
+        <div class="card-header">
+          <h3>🎮 CLAW Shoot V3 Bluetooth Guide & Settings</h3>
+          <span class="badge badge-danger" id="bt-status">DISCONNECTED</span>
+        </div>
+        <div class="controller-guide-container">
+          <div class="pairing-box">
+            <h4>⚡ Standard Mode Pairing Instructions</h4>
+            <p>1. Turn off controller.</p>
+            <p>2. Hold <strong>X + HOME</strong> simultaneously for <strong>5 seconds</strong> until LED flashes rapidly.</p>
+            <p>3. Do <em>NOT</em> use V3 Button Mapping Mode. S.C.O.U.T. requires <strong>Standard HID Gamepad Mode</strong>.</p>
+          </div>
+          <div class="mapping-box">
+            <h4>🗺️ Button Mapping Reference</h4>
+            <div class="mapping-grid">
+              <div><span>Left Stick Y / X</span> <strong>Forward/Backward · Turn L/R</strong></div>
+              <div><span>Right Stick</span> <strong>Pan / Tilt Camera</strong></div>
+              <div><span>A Button</span> <strong>Short Buzzer Beep</strong></div>
+              <div><span>B Button</span> <strong>Hazard Alarm</strong></div>
+              <div><span>X Button</span> <strong>Cycle Operating Mode</strong></div>
+              <div><span>Y Button</span> <strong>Emergency Stop</strong></div>
+              <div><span>D-Pad</span> <strong>Discrete Drive Steps</strong></div>
+              <div><span>Start + Select</span> <strong>Toggle Manual / Auto Mode</strong></div>
+              <div><span>Home Button</span> <strong>Return To Launch (RTL)</strong></div>
+            </div>
+          </div>
+        </div>
+        <div class="sys-grid" style="margin-top: 12px;">
+          <div><span>Controller Model:</span> <strong>CLAW Shoot V3 (Bluetooth HID)</strong></div>
+          <div><span>Gamepad Battery:</span> <strong id="bt-batt">0%</strong></div>
+          <div><span>Last Detected Input:</span> <strong id="bt-input">None</strong></div>
+          <div><span>Stick Deadzone:</span> <strong>±50 / 512</strong></div>
+          <div><span>Auto-Stop Timeout:</span> <strong>100ms on disconnect</strong></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>S.C.O.U.T. v0.27.0 (OP) · Team Absolute Tech · Apache License 2.0</p>
+    </footer>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
