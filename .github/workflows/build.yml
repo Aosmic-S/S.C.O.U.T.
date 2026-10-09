@@ -22,18 +22,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      # Set for the whole job so every pio command sees the same config
+      PLATFORMIO_DATA_DIR: ${{ github.workspace }}/firmware/web
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
       - name: Cache PlatformIO & packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.platformio
@@ -56,24 +59,56 @@ jobs:
           pio run -e lolin32
 
       - name: Build web UI filesystem image (LittleFS)
-        env:
-          PLATFORMIO_DATA_DIR: ${{ github.workspace }}/firmware/web
         run: |
           pio run -e lolin32 -t buildfs
 
       - name: Prepare Binary Artifacts
         run: |
-          cp ~/.platformio/packages/framework-arduinoespressif32/tools/partitions/boot_app0.bin .pio/build/lolin32/boot_app0.bin
+          BUILD=.pio/build/lolin32
+          FW=~/.platformio/packages/framework-arduinoespressif32
+          PY=~/.platformio/penv/bin/python
+          ESPTOOL=~/.platformio/packages/tool-esptoolpy/esptool.py
+
+          echo "Build folder contents:"
+          ls -la "$BUILD"
+
+          # boot_app0.bin ships with the Arduino framework
+          cp "$FW/tools/partitions/boot_app0.bin" "$BUILD/boot_app0.bin"
+
+          # PlatformIO does not always write bootloader.bin into the build folder,
+          # so fall back to the bootloader that ships with the framework
+          if [ ! -s "$BUILD/bootloader.bin" ]; then
+            echo "bootloader.bin not in build folder, using the framework's bootloader"
+            BL_BIN=$(find ~/.platformio/packages -path '*esp32/bin*' -name 'bootloader_dio_40m.bin' 2>/dev/null | head -n 1)
+            if [ -z "$BL_BIN" ]; then
+              BL_BIN=$(find ~/.platformio/packages -name 'bootloader_dio_40m.bin' 2>/dev/null | head -n 1)
+            fi
+            BL_ELF=$(find ~/.platformio/packages -name 'bootloader_dio_40m.elf' 2>/dev/null | head -n 1)
+            if [ -n "$BL_BIN" ]; then
+              cp "$BL_BIN" "$BUILD/bootloader.bin"
+            elif [ -n "$BL_ELF" ]; then
+              "$PY" "$ESPTOOL" --chip esp32 elf2image --flash_mode dio --flash_freq 40m --flash_size 4MB -o "$BUILD/bootloader.bin" "$BL_ELF"
+            else
+              echo "::error::No bootloader found in the framework package"
+              find ~/.platformio/packages -name 'bootloader*' | head -n 30
+              exit 1
+            fi
+          fi
 
       - name: Verify all binaries exist
         run: |
           cd .pio/build/lolin32
+          missing=0
           for f in bootloader.bin partitions.bin boot_app0.bin firmware.bin littlefs.bin; do
             if [ ! -s "$f" ]; then
               echo "::error::Missing or empty build output: $f"
-              exit 1
+              missing=1
             fi
           done
+          if [ "$missing" -ne 0 ]; then
+            ls -la
+            exit 1
+          fi
           ls -l bootloader.bin partitions.bin boot_app0.bin firmware.bin littlefs.bin
 
       - name: Show flash offsets in run summary
@@ -91,7 +126,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Firmware Binary Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: scout-v0.27.0-OP
           path: |
