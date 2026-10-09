@@ -1,17 +1,13 @@
+/*
+ * Copyright 2026 Absolute Tech
+ * Licensed under the Apache License, Version 2.0
+ * Project: S.C.O.U.T. — Version v0.27.0 "OP"
+ * File: README.md · Purpose: Main project documentation overview
+ */
+
 <!--
   Copyright 2026 Absolute Tech
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
+  Licensed under the Apache License, Version 2.0
 -->
 
 <div align="center">
@@ -20,22 +16,22 @@
 
 ### **S**afety **C**ontrol & **O**bservation **U**nit **T**ech
 
-**A custom ESP8266-based rescue bot OS for post-disaster environments.**
+**A competition-ready rescue bot firmware OS for post-disaster environments.**
 
 **Built by Team Absolute Tech**
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Platform](https://img.shields.io/badge/Platform-ESP8266-red.svg)](https://www.espressif.com/en/products/socs/esp8266)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-ESP32%20LOLIN32-red.svg)](https://www.espressif.com/)
 [![Framework](https://img.shields.io/badge/Framework-Arduino%20%2B%20FreeRTOS-teal.svg)](https://www.freertos.org/)
 [![Build](https://img.shields.io/badge/Build-PlatformIO-orange.svg)](https://platformio.org/)
-[![CI](https://github.com/Aosmic-S/S.C.O.U.T./actions/workflows/build.yml/badge.svg)](https://github.com/Aosmic-S/S.C.O.U.T./actions/workflows/build.yml)
-[![Version](https://img.shields.io/badge/Version-v0.1.0--Pup-blue.svg)](CHANGELOG.md)
+[![CI](https://github.com/AbsoluteTech/SCOUT/actions/workflows/build.yml/badge.svg)](.github/workflows/build.yml)
+[![Version](https://img.shields.io/badge/Version-v0.27.0--OP-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/Status-Active%20Development-yellow.svg)]()
 [![Team](https://img.shields.io/badge/Team-Absolute%20Tech-purple.svg)]()
 
 *Because in a disaster zone, every second and every sensor reading matters.*
 
-[Features](#-features) • [Architecture](#-system-architecture) • [Hardware](#-hardware-requirements) • [Setup](#-getting-started) • [Roadmap](#-roadmap) • [License](#-license)
+[Features](#-key-features) • [Architecture](docs/ARCHITECTURE.md) • [Hardware](#-hardware-requirements--pin-mapping) • [Flashing Guide](#-flashing-guide) • [API Guide](docs/API.md) • [Wiring](docs/WIRING.md) • [License](#-license)
 
 </div>
 
@@ -43,340 +39,96 @@
 
 ## 📖 Overview
 
-**S.C.O.U.T.** is a lightweight, modular firmware framework — essentially a custom "operating system" — designed for a NodeMCU ESP8266-based rescue robot operating in post-disaster environments.
+**S.C.O.U.T. (v0.27.0 "OP")** is a modular firmware framework — a rescue bot "OS" designed for an ESP32 LOLIN32 controller operating in hazardous post-disaster environments.
 
-It continuously monitors air quality, tracks environmental conditions, and provides WiFi-based remote control through an innovative networking approach: **the bot connects as a station to an FPV camera's open access point**, allowing any user on that network to view the live video feed and control the bot through an on-board web dashboard.
-
-Built with **FreeRTOS** task scheduling, fail-safe motor control, and mission data logging for professional competition use.
-
-> **Developed by Team Absolute Tech** — driven by a mission to make disaster response faster, safer, and smarter.
+It continuously monitors toxic gases (MQ2, MQ135), internal and external environmental conditions (dual DHT11), tracks battery status via a precision resistor divider on ADC1, drives WS2812 RGB headlights, supports Bluetooth gamepad control (CLAW Shoot V3), and provides a non-blocking web dashboard served from LittleFS over the `FLOW-WIFI-2CDBC` open access point.
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
-### 🚨 Safety & Rescue Core
-- **Dual Gas Detection** — MQ2 (smoke/LPG/methane) + MQ135 (CO2/NH3/benzene)
-- **Environmental Monitoring** — DHT11/DHT22 temperature & humidity
-- **Threshold Alerts** — LED + buzzer + web notification on danger levels
-- **Auto-Retreat Mode** — Bot returns to start point if gas exceeds critical level
-
-### 🎮 Control & UX
-- **Zero-Setup Networking** — Connects to camera's AP; users just join and browse
-- **Captive Portal** — Any URL typed redirects to the S.C.O.U.T. control page
-- **Multi-Mode Control** — Manual, assisted, and autonomous operation
-- **Emergency Stop** — Software + optional hardware kill switch
-
-### 🧠 Autonomy
-- **Gas Sniffer Mode** — Auto-advances and samples air
-- **Perimeter Scan** — Rotates and samples at intervals
-- **Return-to-Home** — Retraces path on command or low battery
-
-### 🔋 Reliability
-- **FreeRTOS Task Scheduling** — Non-blocking, priority-based execution
-- **Watchdog Timer** — Auto-reset on firmware hang
-- **Dead-Man Switch** — Motors stop if no command received in 3s
-- **Battery Monitoring** — Live voltage + low-battery auto-return
-- **Mission Data Logging** — LittleFS black-box with CSV export
-
-### ⚙️ Development
-- **PlatformIO Build System** — Reproducible, project-scoped dependencies
-- **GitHub Actions CI** — Automatic firmware compilation on every push
-- **Modular Architecture** — Clean HAL / Kernel / Application separation
-- **OTA Updates** — Flash firmware over WiFi without USB cable
+- **Dual Gas Detection**: Direct ADC1 sampling of MQ2 (smoke/LPG) and MQ135 (air quality) with logarithmic PPM calculation and calibration routines.
+- **Dual Environmental Sensing**: Dual DHT11 monitoring internal chassis and external ambient conditions.
+- **WS2812 RGB Headlights**: Dual WS2812 headlights on GPIO 18 supporting Low, High, Hazard, and Auto emergency modes.
+- **CLAW Shoot V3 Bluetooth Host**: Direct BT HID gamepad driving via Bluepad32 in Standard Mode.
+- **Fail-Safe Motor Driver**: L298N motor control with dead-man timeout (3s), stall protection (PWM > 50% for 2s + batt < 10V), and emergency stop.
+- **Non-Blocking Web Dashboard**: ESPAsyncWebServer single-page application served from LittleFS with dark UI, 14 telemetry cards, and gzip support.
+- **Captive Portal DNS**: All web requests automatically redirected to the S.C.O.U.T. control dashboard.
+- **Mission Black-Box Logging**: Telemetry recorded to `/logs/mission.csv` in LittleFS with brownout tracking in RTC memory.
 
 ---
 
-## 🏗️ System Architecture
+## ⚡ Flashing Guide
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                     USER'S PHONE                        │
-│  (Camera Stream + S.C.O.U.T. Control Dashboard)         │
-└───────────────────────┬─────────────────────────────────┘
-                        │
-                        │ (connects to open AP)
-                        ▼
-              ┌─────────────────────┐
-              │   E88 CAMERA AP     │
-              │   (Open Network)    │
-              └──────────┬──────────┘
-                         │
-                         │ (ESP connects as STA)
-                         ▼
-        ┌────────────────────────────────┐
-        │      S.C.O.U.T. FIRMWARE       │
-        │      (NodeMCU ESP8266)         │
-        ├────────────────────────────────┤
-        │  Layer 3: Application          │
-        │    • Web Server (HTTP)         │
-        │    • Captive Portal (DNS)      │
-        │    • Command Parser            │
-        ├────────────────────────────────┤
-        │  Layer 2: FreeRTOS Kernel      │
-        │    • Motor Task    (High)      │
-        │    • Web Server    (Medium)    │
-        │    • Sensor Poll   (Medium)    │
-        │    • WiFi Monitor  (Low)       │
-        ├────────────────────────────────┤
-        │  Layer 1: Hardware Abstraction │
-        │    • motor_l298n               │
-        │    • sensor_mq2 / mq135 / dht  │
-        │    • battery_monitor           │
-        └────────────┬───────────────────┘
-                     │
-        ┌────────────┼────────────┬─────────────┐
-        ▼            ▼            ▼             ▼
-   ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌──────────┐
-   │ L298N   │  │  MQ2    │  │  MQ135  │  │   DHT    │
-   │ + 4     │  │  Gas    │  │   Air   │  │  Temp/   │
-   │ Motors  │  │ Sensor  │  │ Quality │  │  Humid   │
-   └─────────┘  └─────────┘  └─────────┘  └──────────┘
+To flash the compiled firmware binaries directly to your ESP32 LOLIN32 using `esptool.py` (or ESP Web Flasher / Flash Download Tools), flash each file to its designated offset address:
+
+| Flash Address Offset | Binary File | Purpose |
+|----------------------|-------------|---------|
+| `0x1000` | `bootloader.bin` | ESP32 Second Stage Bootloader |
+| `0x8000` | `partitions.bin` | Partition Table Schema |
+| `0xe000` | `boot_app0.bin` | OTA Boot App Selector Data |
+| `0x10000` | `firmware.bin` (or `SCOUT.ino.bin`) | Main S.C.O.U.T. Application Firmware |
+
+### Complete `esptool.py` Command
+
+```bash
+esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 921600 \
+  --before default_reset --after hard_reset write_flash -z \
+  0x1000 bootloader.bin \
+  0x8000 partitions.bin \
+  0xe000 boot_app0.bin \
+  0x10000 firmware.bin
 ```
 
----
-
-## 🔧 Hardware Requirements
-
-### Core Components
-
-| Component | Purpose | Quantity |
-|-----------|---------|----------|
-| NodeMCU ESP8266 (v12E) | Main controller | 1 |
-| L298N Motor Driver | Dual H-bridge for motors | 1 |
-| DC Gear Motors | Locomotion | 4 |
-| MQ2 Sensor | Smoke / LPG / Methane | 1 |
-| MQ135 Sensor | Air quality / CO2 / NH3 | 1 |
-| DHT11 or DHT22 | Temperature & Humidity | 1 |
-| E88 FPV Camera | Video feed (self-contained AP) | 1 |
-| 12V Li-ion / LiPo Battery | Main power | 1 |
-| Buck Converter (12V→5V) | Logic power | 1 |
-| CD74HC4051 (optional) | Analog multiplexer for multiple analog sensors | 1 |
-| 1000µF Capacitor | Brownout protection | 1 |
-| Buzzer + LEDs | Alerts & status | — |
-
-### Pin Mapping (Default)
-
-| Function | ESP8266 Pin | Notes |
-|----------|-------------|-------|
-| Motor IN1–IN4 | D1, D2, D5, D6 | L298N control |
-| Motor ENA / ENB | D3, D7 | PWM speed |
-| MQ2 Analog | A0 (via mux) | Requires multiplexer |
-| MQ135 Analog | A0 (via mux) | Requires multiplexer |
-| DHT Data | D4 | Pull-up 10kΩ |
-| Battery Monitor | A0 (via divider) | Voltage divider |
-| Buzzer | D0 | Active buzzer |
-| Status LED | D8 | Built-in LED |
-
-> ⚠️ **Important:** The ESP8266 has only **one ADC pin (A0)**. Use a CD74HC4051 analog multiplexer to read multiple analog sensors.
+> 💡 *Note: Binary artifacts (`bootloader.bin`, `partitions.bin`, `boot_app0.bin`, `firmware.bin`) are automatically compiled and made available for download in the GitHub Actions **Actions** tab on every build.*
 
 ---
 
-## ⚙️ Getting Started
+## 🔧 Hardware Requirements & Pin Mapping
 
-### Prerequisites
+| Component | ESP32 LOLIN32 Pin | Notes |
+|-----------|-------------------|-------|
+| Motor ENA / IN1 / IN2 | GPIO 13, 12, 14 | Left Motor Pair PWM & Dir |
+| Motor ENB / IN3 / IN4 | GPIO 27, 26, 25 | Right Motor Pair PWM & Dir |
+| MQ2 Gas Sensor | GPIO 34 | Analog ADC1 ONLY |
+| MQ135 Air Quality | GPIO 35 | Analog ADC1 ONLY |
+| Battery Divider | GPIO 32 | ADC1, R1=100kΩ, R2=22kΩ |
+| Internal DHT11 | GPIO 4 | Digital (10kΩ pull-up) |
+| External DHT11 | GPIO 2 | Digital (10kΩ pull-up) |
+| WS2812 Headlights | GPIO 18 | Dual WS2812 RGB LED Data |
+| Active Buzzer | GPIO 15 | Audio alarms & beeps |
+| Status LED | GPIO 5 | Onboard LED |
 
-- [PlatformIO Core](https://platformio.org/install) **or** [VS Code + PlatformIO IDE](https://platformio.org/install/ide?install=vscode)
-- Git
-- USB drivers for your NodeMCU (CP2102 or CH340)
+---
 
-### Installation
+## ⚙️ Quick Start & Build
 
-1. **Clone the repository**
+1. Clone repository:
    ```bash
-   git clone https://github.com/[your-username]/SCOUT.git
+   git clone https://github.com/AbsoluteTech/SCOUT.git
    cd SCOUT
    ```
-
-2. **Configure your settings**
+2. Copy configuration:
    ```bash
    cp firmware/config.example.h firmware/config.h
    ```
-   Edit `firmware/config.h` and set:
-   - `CAMERA_SSID` — your E88 camera's AP name
-   - `GAS_THRESHOLD` — MQ2 alert level
-   - `AIR_THRESHOLD` — MQ135 alert level
-   - `BATTERY_LOW` — low voltage cutoff
-
-3. **Build the firmware**
+3. Build with PlatformIO:
    ```bash
-   pio run
+   pio run -e lolin32
    ```
 
-4. **Flash to the board**
-   ```bash
-   pio run --target upload
-   ```
+---
 
-5. **Monitor serial output**
-   ```bash
-   pio device monitor
-   ```
+## 📜 Documentation
 
-6. **Connect and control**
-   - Power on the bot
-   - Join the camera's WiFi AP from your phone
-   - Open a browser and navigate to the ESP's IP (shown on serial monitor)
-   - The S.C.O.U.T. dashboard loads — drive away! 🚗
-
-### Project Configuration
-
-All build settings are defined in `platformio.ini`:
-
-```ini
-[env:nodemcuv2]
-platform = espressif8266
-board = nodemcuv2
-framework = arduino
-
-monitor_speed = 115200
-upload_speed = 921600
-
-build_flags =
-    -DDEBUG_ESP_PORT=Serial
-    -Wall
-
-lib_deps =
-    adafruit/DHT sensor library@^1.4.6
-    adafruit/Adafruit Unified Sensor@^1.1.14
-
-board_build.filesystem = littlefs
-```
-
-### Automated Builds (CI)
-
-Every push to `main` or `develop` automatically compiles the firmware via GitHub Actions. The compiled `.bin` file is available in the **Actions** tab → select the workflow run → **Artifacts**.
+- [System Architecture](docs/ARCHITECTURE.md)
+- [Wiring & Pinouts](docs/WIRING.md)
+- [REST API Specification](docs/API.md)
+- [Sensor Calibration](docs/CALIBRATION.md)
 
 ---
 
-## 📁 Project Structure
+## ⚖️ License
 
-```
-SCOUT/
-├── .github/
-│   └── workflows/
-│       └── build.yml              # CI: compile firmware on push
-├── LICENSE
-├── NOTICE
-├── README.md
-├── CHANGELOG.md
-├── platformio.ini                 # PlatformIO build configuration
-├── .gitignore
-├── docs/
-│   ├── ARCHITECTURE.md
-│   ├── WIRING.md
-│   ├── API.md
-│   └── CALIBRATION.md
-├── firmware/
-│   ├── SCOUT.ino                  # Main entry point
-│   ├── config.example.h           # Config template (committed)
-│   ├── config.h                   # Actual config (gitignored)
-│   ├── core/
-│   │   ├── task_manager.cpp
-│   │   ├── watchdog.cpp
-│   │   └── logger.cpp
-│   ├── drivers/
-│   │   ├── motor_l298n.cpp
-│   │   ├── sensor_mq2.cpp
-│   │   ├── sensor_mq135.cpp
-│   │   ├── sensor_dht.cpp
-│   │   └── battery_monitor.cpp
-│   ├── network/
-│   │   ├── wifi_sta.cpp
-│   │   ├── web_server.cpp
-│   │   └── captive_portal.cpp
-│   └── web/
-│       ├── index.html
-│       ├── style.css
-│       └── script.js
-└── hardware/
-    ├── schematic.pdf
-    ├── bom.csv
-    └── enclosure/
-```
-
----
-
-## 🗺️ Roadmap
-
-| Version | Codename | Status | Milestone |
-|---------|----------|--------|-----------|
-| v0.1.0 | **Pup** | 🚧 In Progress | Motor control + serial |
-| v0.2.0 | **Tracker** | ⏳ Planned | Sensor integration |
-| v0.3.0 | **Watcher** | ⏳ Planned | WiFi + web dashboard |
-| v0.4.0 | **Ranger** | ⏳ Planned | Autonomous modes |
-| v1.0.0 | **Sentinel** | 🎯 Target | Competition-ready |
-
-See [CHANGELOG.md](CHANGELOG.md) for details.
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-All PRs must pass the CI build before merging.
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct.
-
----
-
-## 📜 License
-
-Licensed under the **Apache License, Version 2.0**.
-See [LICENSE](LICENSE) for the full text.
-
-```
-Copyright 2026 Absolute Tech
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-```
-
----
-
-## 🙏 Acknowledgements
-
-- [ESP8266 Arduino Core](https://github.com/esp8266/Arduino)
-- [FreeRTOS](https://www.freertos.org/)
-- [PlatformIO](https://platformio.org/)
-- [Adafruit DHT Library](https://github.com/adafruit/DHT-sensor-library)
-- All open-source contributors who made this possible
-
----
-
-## 📬 Contact
-
-**Team Absolute Tech**
-- 🏫 The Sapience School , Vikasnager, Dehradun,India 
-- 📧 aosmicservices@gmail.com
-- 🔗 https://github.com/Aosmic-S/S.C.O.U.T./
-
-**Team Members:**
-- Arham Ali
-- Devansh Rana
-
----
-
-<div align="center">
-
-**⭐ If S.C.O.U.T. helped you, give it a star! ⭐**
-
-*Built with ❤️ by Team Absolute Tech — for safer rescues.*
-
-</div>
+Licensed under the **Apache License, Version 2.0**. See [LICENSE](LICENSE) and [NOTICE](NOTICE) for details.
+Copyright 2026 Absolute Tech.

@@ -1,0 +1,9 @@
+.pio
+.vscode
+.idea
+*.bin
+*.elf
+*.hex
+*.out
+
+firmware/config.h
