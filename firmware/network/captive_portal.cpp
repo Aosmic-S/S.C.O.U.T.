@@ -17,7 +17,7 @@ CaptivePortalManager& CaptivePortalManager::instance() {
 CaptivePortalManager::CaptivePortalManager() {}
 
 void CaptivePortalManager::init() {
-    dns_server_.start(DNS_PORT, "*", WiFi.localIP());
+    dns_server_.start(DNS_PORT, "*", WiFi.softAPIP());
     active_ = true;
 }
 
