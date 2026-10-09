@@ -24,6 +24,14 @@ bool LoggerManager::init() {
         return false;
     }
 
+    // LittleFS does not auto-create folders, so create /logs first
+    if (!LittleFS.exists("/logs")) {
+        if (!LittleFS.mkdir("/logs")) {
+            Serial.println("[LOGGER] Failed to create /logs directory!");
+            return false;
+        }
+    }
+
     initialized_ = true;
     ensureHeader();
     return true;
@@ -31,6 +39,10 @@ bool LoggerManager::init() {
 
 void LoggerManager::ensureHeader() {
     if (!initialized_) return;
+
+    if (!LittleFS.exists("/logs")) {
+        LittleFS.mkdir("/logs");
+    }
 
     if (!LittleFS.exists(LOG_CSV_PATH)) {
         File f = LittleFS.open(LOG_CSV_PATH, "w");
@@ -54,6 +66,8 @@ void LoggerManager::logTelemetry() {
         } else if (f) {
             f.close();
         }
+    } else {
+        ensureHeader();
     }
 
     File f = LittleFS.open(LOG_CSV_PATH, "a");
@@ -77,6 +91,10 @@ void LoggerManager::logTelemetry() {
 
 void LoggerManager::logBrownout(const String& reason) {
     if (!initialized_) return;
+
+    if (!LittleFS.exists("/logs")) {
+        LittleFS.mkdir("/logs");
+    }
 
     File f = LittleFS.open(LOG_BROWNOUT_PATH, "a");
     if (f) {
