@@ -24,10 +24,10 @@
 [![Platform](https://img.shields.io/badge/Platform-ESP32%20LOLIN32-red.svg)](https://www.espressif.com/)
 [![Framework](https://img.shields.io/badge/Framework-Arduino%20%2B%20FreeRTOS-teal.svg)](https://www.freertos.org/)
 [![Build](https://img.shields.io/badge/Build-PlatformIO-orange.svg)](https://platformio.org/)
-[![CI](https://github.com/Aosmic-S/S.C.O.U.T./actions/workflows/build.yml/badge.svg)](https://github.com/Aosmic-S/S.C.O.U.T./actions/workflows/build.yml)
+[![CI](https://github.com/AbsoluteTech/SCOUT/actions/workflows/build.yml/badge.svg)](.github/workflows/build.yml)
 [![Version](https://img.shields.io/badge/Version-v0.27.0--OP-blue.svg)](CHANGELOG.md)
 [![Status](https://img.shields.io/badge/Status-Active%20Development-yellow.svg)]()
-[![Team](https://img.shields.io/badge/Team-Absolute%20Tech-purple.svg)](https://github.com/Aosmic-S/S.C.O.U.T./)
+[![Team](https://img.shields.io/badge/Team-Absolute%20Tech-purple.svg)]()
 
 *Because in a disaster zone, every second and every sensor reading matters.*
 
@@ -54,7 +54,7 @@ It continuously monitors toxic gases (MQ2, MQ135), internal and external environ
 - **Fail-Safe Motor Driver**: L298N motor control with dead-man timeout (3s), stall protection (PWM > 50% for 2s + batt < 10V), and emergency stop.
 - **Non-Blocking Web Dashboard**: ESPAsyncWebServer single-page application served from LittleFS with dark UI, 14 telemetry cards, and gzip support.
 - **Captive Portal DNS**: All web requests automatically redirected to the S.C.O.U.T. control dashboard.
-- **Mission Black-Box Logging**: Telemetry recorded to `/mission.csv` in LittleFS with brownout tracking in RTC memory.
+- **Mission Black-Box Logging**: Telemetry recorded to `/logs/mission.csv` in LittleFS with brownout tracking in RTC memory.
 
 ---
 
@@ -105,8 +105,8 @@ esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 921600 \
 
 1. Clone repository:
    ```bash
-   git clone https://github.com/Aosmic-S/S.C.O.U.T.git
-   cd S.C.O.U.T
+   git clone https://github.com/AbsoluteTech/SCOUT.git
+   cd SCOUT
    ```
 2. Copy configuration:
    ```bash
