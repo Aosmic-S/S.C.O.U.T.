@@ -112,6 +112,7 @@ static_assert(sizeof(SCOUT_CODENAME) > 1, "SCOUT_CODENAME must be defined");
 #define BT_DISCONNECT_STOP_MS 100      // Stop within 100ms on BT loss
 #define BT_POLL_INTERVAL_MS 20
 
+
 // ============================================================================
 // FREERTOS TASK CONFIGURATION
 // ============================================================================
@@ -142,8 +143,8 @@ static_assert(sizeof(SCOUT_CODENAME) > 1, "SCOUT_CODENAME must be defined");
 // ============================================================================
 // LITTLEFS LOG PATHS
 // ============================================================================
-#define LOG_CSV_PATH        "/logs/mission.csv"
-#define LOG_BROWNOUT_PATH   "/logs/brownout.txt"
+#define LOG_CSV_PATH        "/mission.csv"
+#define LOG_BROWNOUT_PATH   "/brownout.txt"
 #define MAX_LOG_SIZE_BYTES  200000
 
 #endif // CONFIG_H
