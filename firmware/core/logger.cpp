@@ -44,7 +44,6 @@ void LoggerManager::ensureHeader() {
 void LoggerManager::logTelemetry() {
     if (!initialized_) return;
 
-    ensureHeader();
     SystemState st = StateManager::instance().getState();
 
     if (LittleFS.exists(LOG_CSV_PATH)) {
@@ -79,7 +78,6 @@ void LoggerManager::logTelemetry() {
 void LoggerManager::logBrownout(const String& reason) {
     if (!initialized_) return;
 
-    ensureHeader();
     File f = LittleFS.open(LOG_BROWNOUT_PATH, "a");
     if (f) {
         f.printf("[%u] RESET / BROWNOUT: %s\n", (unsigned int)millis(), reason.c_str());
